@@ -1,0 +1,10 @@
+---
+
+docker_gen_dist_url: "https://github.com/jwilder/docker-gen/releases/download/"
+docker_gen_version: "0.7.3"
+docker_gen_os_family: "linux-amd64"
+docker_gen_config_location: "/etc/default/"
+nginx_template_dir: "/etc/nginx/templates/"
+nginx_reload_cmd: "systemctl reload nginx"
+nginx_dest_config: "/etc/nginx/conf.d/default.conf"
+nginx_index_dir: "/usr/share/nginx/html/"

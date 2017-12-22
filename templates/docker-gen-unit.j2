@@ -1,0 +1,11 @@
+[Unit]
+Description=docker-gen unit
+After=network.target docker.service
+Requires=docker.service
+
+[Service]
+ExecStart=/bin/docker-gen -config {{ docker_gen_config_location }}/docker-gen.config
+PIDFile=/var/run/docker-gen.pid
+
+[Install]
+WantedBy=multi-user.target

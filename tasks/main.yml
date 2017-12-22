@@ -1,0 +1,45 @@
+---
+
+- name: Get docker-gen distrib
+  unarchive: 
+    src: "{{ docker_gen_dist_url }}/{{ docker_gen_version }}/docker-gen-{{ docker_gen_os_family }}-{{ docker_gen_version }}.tar.gz"
+    dest: /usr/local/bin/
+    remote_src: yes
+
+- name: Create symlink for docker-gen
+  file:
+    src: /usr/local/bin/docker-gen
+    dest: /bin/docker-gen
+    state: link
+    mode: 0755
+
+- name: Create nginx tempate folder
+  file:
+    path: "{{ nginx_template_dir }}"
+    state: directory
+
+- name: Copy nginx template file
+  copy:
+    src: "{{ item }}"
+    dest: "{{ nginx_template_dir }}/{{ item }}"
+  with_items:
+    - nginx.tmpl
+    - index.tmpl
+
+- name: Copy docker-gen config
+  template:
+    src: docker-gen-config.j2
+    dest: "{{ docker_gen_config_location }}/docker-gen.config"
+
+- name: Create docker-gen systemd unit
+  template:
+    src: docker-gen-unit.j2
+    dest: /etc/systemd/system/docker-gen.service
+    mode: 0644
+
+- name: Start docker-gen unit
+  systemd:
+    state: started
+    daemon_reload: yes
+    name: docker-gen.service
+    enabled: yes

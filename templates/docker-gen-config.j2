@@ -1,0 +1,13 @@
+[[config]]
+template = "{{ nginx_template_dir }}/nginx.tmpl"
+dest = "{{ nginx_dest_config }}"
+onlyexposed = true
+watch = true
+notifycmd = "{{ nginx_reload_cmd }}"
+
+[[config]]
+template = "{{ nginx_template_dir }}/index.tmpl"
+dest = "{{ nginx_index_dir }}/index.html"
+onlyexposed = true
+watch = true
+notifycmd = "systemctl reload nginx"
